@@ -67,6 +67,33 @@ python3 -B telegram_jarvis.py
    - Cooldown por backend ante `429`, `timeout`, `connection refused`.
    - Fallback local si proveedores externos están saturados.
 
+## Arquitectura (Mermaid)
+
+```mermaid
+flowchart TD
+    U[Usuario en Telegram] --> M[Mensaje entrante]
+    M --> Q{Consulta de precio cripto?}
+    Q -- Si --> C[Detectar simbolo/ticker]
+    C --> CMC[CoinMarketCap API]
+    CMC --> R1[Responder precio + cambio 24h]
+
+    Q -- No --> W{Pregunta "quienes somos"?}
+    W -- Si --> R2[Responder https://www.ethcali.org/]
+    W -- No --> O{OpenClaw habilitado?}
+    O -- CLI --> OC[OpenClaw CLI]
+    O -- HTTP --> OH[OpenClaw HTTP]
+    O -- No --> F[Fallback remoto]
+
+    OC --> N[Normalizar respuesta]
+    OH --> N
+    F --> N
+
+    N --> V{Respuesta valida?}
+    V -- Si --> OUT[Enviar respuesta]
+    V -- No --> L[Fallback local]
+    L --> OUT
+```
+
 ## Usar OpenClaw
 
 ### Opción A: OpenClaw HTTP

@@ -77,7 +77,7 @@ flowchart TD
     C --> CMC[CoinMarketCap API]
     CMC --> R1[Responder precio + cambio 24h]
 
-    Q -- No --> W{Pregunta "quienes somos"?}
+    Q -- No --> W{Pregunta quienes somos?}
     W -- Si --> R2[Responder https://www.ethcali.org/]
     W -- No --> O{OpenClaw habilitado?}
     O -- CLI --> OC[OpenClaw CLI]
